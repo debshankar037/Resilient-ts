@@ -1,4 +1,8 @@
-# resilient-ts
+# 🛡️ resilient-ts
+
+[![npm version](https://img.shields.io/npm/v/resilient-ts.svg)](https://npmjs.org/package/resilient-ts)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue.svg)](https://www.typescriptlang.org/)
 
 **A production-grade, highly configurable retry utility for modern TypeScript applications.** 
 
@@ -8,7 +12,7 @@ Whether you are fetching data from flaky APIs, connecting to a database, or perf
 
 ---
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install resilient-ts
@@ -20,7 +24,7 @@ pnpm add resilient-ts
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
 Wrap any promise-returning function with `RetryEngine.execute`. By default, it gives you 3 attempts with a fixed 500ms delay.
 
@@ -52,7 +56,7 @@ async function fetchUserProfile(userId: string) {
 
 ---
 
-## Core Features & Examples
+## ✨ Core Features & Examples
 
 ### 1. Delay & Jitter Strategies
 To prevent the "Thundering Herd" problem (where hundreds of clients retry at the exact same millisecond and crash your server), `resilient-ts` supports advanced mathematical jitter.
@@ -158,7 +162,7 @@ const engine = new RetryEngine({
 
 ---
 
-## API Reference
+## 🛠️ API Reference
 
 ### `RetryConfig`
 | Property | Type | Description |
@@ -176,7 +180,7 @@ const engine = new RetryEngine({
 
 ---
 
-## Contributing & Testing
+## 👨‍💻 Contributing & Testing
 
 If you want to contribute, clone the repo and run the tests. Tests are incredibly fast thanks to `vitest` fake timers.
 
@@ -185,5 +189,5 @@ npm install
 npm run test
 ```
 
-## License
+## 📄 License
 MIT © Debshankar Dey
