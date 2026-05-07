@@ -1,9 +1,5 @@
 # resilient-ts
 
-[![npm version](https://img.shields.io/npm/v/resilient-ts.svg)](https://npmjs.org/package/resilient-ts)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue.svg)](https://www.typescriptlang.org/)
-
 **A production-grade, highly configurable retry utility for modern TypeScript applications.** 
 
 `resilient-ts` goes beyond simple `setTimeout` loops. It is engineered for distributed systems, handling everything from advanced **exponential backoff with decorrelated jitter**, to **native HTTP `Retry-After` header parsing**, **global timeouts**, and **structured logging**.
@@ -162,7 +158,7 @@ const engine = new RetryEngine({
 
 ---
 
-## 🛠️ API Reference
+## API Reference
 
 ### `RetryConfig`
 | Property | Type | Description |
