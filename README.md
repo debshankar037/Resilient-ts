@@ -188,7 +188,6 @@ If you want to contribute, clone the repo and run the tests. Tests are incredibl
 npm install
 npm run test
 ```
-See our [Testing Guide](./TestingGuide.md) for more details.
 
 ## 📄 License
 MIT © Debshankar Dey
