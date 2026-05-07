@@ -1,6 +1,6 @@
 {
   "name": "resilient-ts",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Production-grade configurable retry and resilience toolkit for TypeScript and Node.js",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
