@@ -11,12 +11,35 @@ export class DelayResolver {
     this.DelayConfiguration = delayConfig;
   }
 
+
+  private getHeader(headers: any, name: string): string | undefined {
+    if (!headers) return undefined;
+
+    // Fetch Headers object
+    if (typeof headers.get === "function") {
+      return headers.get(name) ?? headers.get(name.toLowerCase()) ?? undefined;
+    }
+
+    // Plain object direct hit
+    if (headers[name] !== undefined) return headers[name];
+
+    // Case-insensitive object search
+    const lower = name.toLowerCase();
+
+    for (const key in headers) {
+      if (key.toLowerCase() === lower) {
+        return headers[key];
+      }
+    }
+
+    return undefined;
+  }
   /**
    * Calculates the difference between our clock and the server's clock.
    * Positive = Our clock is ahead. Negative = Our clock is behind.
    */
   private getClockSkew(headers: any): number {
-    const serverDateStr = headers?.["date"];
+    const serverDateStr = this.getHeader(headers, "date");
     if (!serverDateStr) return 0;
 
     const serverTime = Date.parse(serverDateStr);
@@ -31,8 +54,8 @@ export class DelayResolver {
     let delayMs: number | null = null;
 
     // 1. Check RFC 7231: Retry-After
-    const retryAfter = header["retry-after"];
-    if (retryAfter) {
+    const retryAfter = this.getHeader(header, "retry-after");
+    if (retryAfter !== undefined) {
       if (/^\d+$/.test(retryAfter)) {
         delayMs = parseInt(retryAfter, 10) * 1000;
       } else {
@@ -46,9 +69,9 @@ export class DelayResolver {
     // 2. Check Rate Limit Reset Headers (IETF & Legacy)
     if (delayMs === null) {
       const resetHeader =
-        header["ratelimit-reset"] ||
-        header["x-ratelimit-reset"] ||
-        header["x-rate-limit-reset"];
+        this.getHeader(header, "ratelimit-reset") ||
+        this.getHeader(header, "x-ratelimit-reset") ||
+        this.getHeader(header, "x-rate-limit-reset");
 
       if (resetHeader && /^\d+$/.test(resetHeader)) {
         const value = parseInt(resetHeader, 10);
@@ -75,7 +98,7 @@ export class DelayResolver {
   resolveDelay(attempt: number, error: any, previousDelay: number): number {
     // 1. Check for server-specified delay (includes Skew, Fudge, and Jitter)
     const serverDelay: number | null = this.fetchServerSpecifiedDelay(error?.response?.headers);
-    
+
     if (serverDelay !== null) {
       return Math.min(serverDelay, this.DelayConfiguration.max || 30000);
     }
@@ -83,19 +106,19 @@ export class DelayResolver {
     // 2. Fallback to Mathematical Strategy
     const delayStrategy: DelayStrategy = this.DelayConfiguration.strategy || "fixed";
     const delayStrategyInstance = DelayStrategyFactory.create(
-      delayStrategy, 
-      this.DelayConfiguration.initial, 
+      delayStrategy,
+      this.DelayConfiguration.initial,
       this.DelayConfiguration.multiplier
     );
-    
+
     let delay: number = delayStrategyInstance.getDelay(attempt);
 
     // 3. Apply configured Jitter (e.g., Decorrelated Jitter)
     if (this.DelayConfiguration.jitter) {
       if (this.DelayConfiguration.jitter === "decorrelated") {
         const decorrelated = JitterStrategyFactory.create(
-          "decorrelated", 
-          previousDelay, 
+          "decorrelated",
+          previousDelay,
           this.DelayConfiguration.initial || 1000
         );
         delay = decorrelated.apply();

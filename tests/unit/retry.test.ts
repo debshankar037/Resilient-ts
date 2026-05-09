@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { RetryEngine } from './retry';
-import { RetryError } from './Error/RetryError';
+import { RetryEngine } from '../../src/retry';
+import { RetryError } from '../../src/Error/RetryError';
 
 describe('RetryEngine', () => {
   beforeEach(() => {

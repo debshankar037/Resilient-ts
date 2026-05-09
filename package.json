@@ -22,7 +22,9 @@
     "dev": "tsup src/index.ts --watch",
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "test": "vitest run",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "chaos:server": "tsx tests/chaos/flaky-server.ts",
+    "chaos:test": "vitest tests/chaos"
   },
   "keywords": [
     "retry",
@@ -38,8 +40,11 @@
     "node": ">=18"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^25.6.0",
+    "express": "^5.2.1",
     "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
     "typescript": "5.9",
     "vitest": "^4.1.5"
   },
