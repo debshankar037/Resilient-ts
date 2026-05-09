@@ -182,7 +182,8 @@ const engine = new RetryEngine({
 
 ## 👨‍💻 Contributing & Testing
 
-If you want to contribute, clone the repo and run the tests. Tests are incredibly fast thanks to `vitest` fake timers.
+If you want to contribute, clone the repo and run the tests.
+If you found any issue or bug, please create an issue in the repository or make a pull request.
 
 ```bash
 npm install
